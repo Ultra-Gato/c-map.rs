@@ -6,7 +6,7 @@ Whenever It need to do some operation, every time it compute the same hash key. 
 
 Moreover, Its very easy to get deadlock in `dashmap`.
 
-So this crate is to resolve those problems, Also performance should be better then `dashmap`, as no code is faster any less code. It has less then 150 lines of code...
+So this crate is to resolve those problems, Also performance should be better then `dashmap`, as no code is faster then no code. It has less then 150 lines of code...
 
 # How it works ?
 
