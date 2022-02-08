@@ -55,7 +55,7 @@ impl<K: Hash, V, S: BuildHasher> HashMap<K, V, S> {
 
     #[inline]
     pub fn shard(&self, key: &K) -> &RwLock<Map<K, V, S>> {
-        let idx = self.shard_idx(&key);
+        let idx = self.shard_idx(key);
         unsafe { self.shards.get_unchecked(idx) }
     }
 
