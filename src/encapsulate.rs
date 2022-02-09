@@ -1,6 +1,5 @@
 use super::*;
 
-use parking_lot::{RwLockReadGuard, RwLockWriteGuard};
 use std::collections::hash_map::Entry;
 
 macro_rules! readable {

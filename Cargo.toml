@@ -1,6 +1,6 @@
 [package]
 name = "c-map"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2018"
 
 description = "Very fast concurrent hashmap"
@@ -9,6 +9,9 @@ repository = "https://github.com/nurmohammed840/c-map.rs"
 license = "Apache-2.0"
 keywords = ["concurrent", "hashmap"]
 
+[features]
+parking-lot = ["parking_lot"]
+
 [dependencies]
-parking_lot = "0.12"
+parking_lot = { version = "0.12", optional = true }
 num_cpus = "1"

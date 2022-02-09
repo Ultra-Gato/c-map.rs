@@ -2,7 +2,11 @@
 
 mod encapsulate;
 
-use parking_lot::RwLock;
+#[cfg(feature = "parking-lot")]
+use parking_lot::{RwLock, RwLockReadGuard, RwLockWriteGuard};
+#[cfg(not(feature = "parking-lot"))]
+use std::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
+
 use std::{
     collections::{hash_map::RandomState, HashMap as Map},
     hash::{BuildHasher, Hash, Hasher},
@@ -40,6 +44,9 @@ impl<K: Hash, V, S: BuildHasher> HashMap<K, V, S> {
     #[inline]
     pub fn read<'a>(&'a self, key: &'a K) -> Readable<'a, K, V, S> {
         Readable {
+            #[cfg(not(feature = "parking-lot"))]
+            map: self.shard(key).read().unwrap(),
+            #[cfg(feature = "parking-lot")]
             map: self.shard(key).read(),
             key,
         }
@@ -48,6 +55,9 @@ impl<K: Hash, V, S: BuildHasher> HashMap<K, V, S> {
     #[inline]
     pub fn write(&self, key: K) -> Writeable<K, V, S> {
         Writeable {
+            #[cfg(not(feature = "parking-lot"))]
+            map: self.shard(&key).write().unwrap(),
+            #[cfg(feature = "parking-lot")]
             map: self.shard(&key).write(),
             key,
         }
