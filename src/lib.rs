@@ -38,9 +38,9 @@ impl<K, V> HashMap<K, V> {
 
 impl<K: Hash, V, S: BuildHasher> HashMap<K, V, S> {
     #[inline]
-    pub fn read(&self, key: K) -> Readable<K, V, S> {
+    pub fn read<'a>(&'a self, key: &'a K) -> Readable<'a, K, V, S> {
         Readable {
-            map: self.shard(&key).read(),
+            map: self.shard(key).read(),
             key,
         }
     }

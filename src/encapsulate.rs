@@ -20,11 +20,10 @@ macro_rules! readable {
     };
 }
 
-
 /// RAII structure used to release the shared read access, when dropped.
 #[derive(Debug)]
 pub struct Readable<'a, K, V, S> {
-    pub(super) key: K,
+    pub(super) key: &'a K,
     pub(super) map: RwLockReadGuard<'a, Map<K, V, S>>,
 }
 
@@ -54,11 +53,8 @@ impl<K: Eq + Hash, V, S: BuildHasher> Writeable<'_, K, V, S> {
     /// If the map did have this key present, the value is updated, and the old
     /// value is returned. The key is not updated, though; this matters for
     /// types that can be `==` without being identical.
-    pub fn insert(&mut self, value: V) -> Option<V>
-    where
-        K: Clone,
-    {
-        self.map.insert(self.key.clone(), value)
+    pub fn insert(mut self, value: V) -> Option<V> {
+        self.map.insert(self.key, value)
     }
 
     /// Removes a key from the map, returning the value at the key if the key
