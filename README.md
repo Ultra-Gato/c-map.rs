@@ -1,13 +1,13 @@
-This crate is inspired by [dashmap](https://github.com/xacrimon/dashmap). which is a concurrent hashmap.
+This crate is inspired by the [dashmap](https://github.com/xacrimon/dashmap). which is a concurrent hashmap.
 
 But [dashmap](https://github.com/xacrimon/dashmap) has some poor api design (In my opinion). 
 
-Whenever It need to do some operation, every time it compute the same hash key. which is cheap but redundant, and unnecessary locking and unlocking also has some extra overhead. 
+Whenever It needs to do some operation, it has to recompute the same hash key. which is cheap but redundant, and unnecessary locking and unlocking also creates extra overhead. 
 
-Moreover, Its very easy to get deadlock in `dashmap`.
+Moreover, It's very easy to get a deadlock while using a `dashmap`.
 
-So this crate is to resolve those problems, Also performance should be better then `dashmap`, as no code is faster then no code. It has less then 150 lines of code...
+So this crate is designed to resolve those problems, Also performance should be better then `dashmap`, since no code is faster then no code. It has less then 150 lines of code...
 
-# How it works ?
+# How does it work?
 
-Instead of a giant rwlock on a hashmap. It use multiple hashmap for better performance. 
+Instead of using a giant `RwLock` on a hashmap. It use multiple hashmaps for better performance. 
